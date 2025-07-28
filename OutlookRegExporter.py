@@ -77,7 +77,7 @@ class Application(tk.Frame):
         self.browse_button = tk.Button(self, text="参照...", command=self.browse_folder)
         self.browse_button.grid(row=1, column=1, padx=5)
         
-        self.export_button = tk.Button(self, text="設定をエクスポート", command=self.run_export, bg="#4CAF50", fg="white", height=2)
+        self.export_button = tk.Button(self, text="設定をエクスポート", command=self.run_export, bg="#007bff", fg="white", height=2)
         self.export_button.grid(row=2, column=0, columnspan=2, pady=10, sticky="ew")
 
     def browse_folder(self):
