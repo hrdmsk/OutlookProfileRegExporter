@@ -1,4 +1,4 @@
-('D:\\document\\OutlookRegExporter\\build\\OutlookProfileRegExporter\\PYZ-00.pyz',
+('D:\\document\\OutlookProfileRegExporter\\build\\OutlookProfileRegExporter\\PYZ-00.pyz',
  [('_compat_pickle',
    'C:\\Users\\masak\\AppData\\Local\\Programs\\Python\\Python310\\lib\\_compat_pickle.py',
    'PYMODULE'),
