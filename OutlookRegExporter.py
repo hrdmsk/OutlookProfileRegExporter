@@ -99,7 +99,7 @@ class Application(tk.Frame):
         except tk.TclError:
             print("アイコンを設定できませんでした。")
 
-        self.master.geometry("450x320") # ウィンドウサイズを調整
+        self.master.geometry("450x320")
         self.pack(pady=10, padx=10, fill="both", expand=True)
         
         self.profiles = []
