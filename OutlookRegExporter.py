@@ -1,6 +1,5 @@
 #OutlookRegExporter.py
 # Outlookのアカウント設定をレジストリからエクスポートする
-
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import subprocess
@@ -9,7 +8,7 @@ import winreg
 import ctypes
 import sys
 
-# Outlookのバージョンごとのレジストリパス
+# Outlookのバージョンごとのレジストリパス（Profilesキーまで）
 OUTLOOK_PROFILE_KEYS = {
     "Outlook 2016/2019/365": r"Software\Microsoft\Office\16.0\Outlook\Profiles",
     "Outlook 2013": r"Software\Microsoft\Office\15.0\Outlook\Profiles",
@@ -27,29 +26,35 @@ def get_outlook_profile_key():
     """利用可能なOutlookプロファイルのレジストリキーパスを取得する"""
     for version, key_path in OUTLOOK_PROFILE_KEYS.items():
         try:
+            # HKEY_CURRENT_USER からキーを開いて存在を確認
             key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, key_path)
             winreg.CloseKey(key)
             print(f"検知したバージョン: {version}")
+            # 最初に見つかった有効なキーを返す
             return key_path
         except FileNotFoundError:
             continue
     return None
 
 def export_settings(output_dir):
-    """指定されたディレクトリにOutlookの設定をエクスポートする"""
+    """指定されたディレクトリにOutlookのプロファイル設定をエクスポートする"""
     reg_key_path = get_outlook_profile_key()
 
     if not reg_key_path:
         messagebox.showerror("エラー", "対応するOutlookプロファイルが見つかりませんでした。")
         return
 
+    # HKEY_CURRENT_USER を含む完全なパス
     full_reg_path = f"HKEY_CURRENT_USER\\{reg_key_path}"
-    output_file = os.path.join(output_dir, "OutlookAccount.reg")
+    output_file = os.path.join(output_dir, "OutlookProfiles.reg") # ファイル名を変更
 
     try:
+        # regeditコマンドを実行してレジストリをエクスポート
         command = ['regedit', '/e', output_file, full_reg_path]
         result = subprocess.run(command, check=True, capture_output=True, text=True, creationflags=subprocess.CREATE_NO_WINDOW)
-        messagebox.showinfo("成功", f"設定が正常にエクスポートされました。\nファイル: {output_file}")
+        
+        messagebox.showinfo("成功", f"プロファイル設定が正常にエクスポートされました。\nファイル: {output_file}")
+
     except FileNotFoundError:
         messagebox.showerror("エラー", "regedit.exeが見つかりません。Windows環境で実行してください。")
     except subprocess.CalledProcessError as e:
@@ -61,8 +66,7 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        # 管理者権限で実行されていることをタイトルで示す
-        self.master.title("Outlook 設定エクスポートツール (管理者権限)")
+        self.master.title("Outlook プロファイルエクスポートツール (管理者権限)")
         self.master.geometry("450x150")
         self.pack(pady=10, padx=10)
         self.create_widgets()
@@ -80,7 +84,7 @@ class Application(tk.Frame):
         self.browse_button = tk.Button(self, text="参照...", command=self.browse_folder)
         self.browse_button.grid(row=1, column=1, padx=5)
         
-        self.export_button = tk.Button(self, text="設定をエクスポート", command=self.run_export, bg="#007bff", fg="white", height=2)
+        self.export_button = tk.Button(self, text="プロファイルをエクスポート", command=self.run_export, bg="#4CAF50", fg="white", height=2)
         self.export_button.grid(row=2, column=0, columnspan=2, pady=10, sticky="ew")
 
     def browse_folder(self):
