@@ -1,3 +1,6 @@
+#OutlookRegExporter.py
+# Outlookのアカウント設定をレジストリからエクスポートする
+
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import subprocess
