@@ -1,4 +1,4 @@
-# Outlook Profile Exporter
+# OutlookProfileRegExporter
 
 ## 概要
 
