@@ -11,9 +11,9 @@ import sys
 
 # Outlookのバージョンごとのレジストリパス
 OUTLOOK_PROFILE_KEYS = {
-    "Outlook 2016/2019/365": r"Software\Microsoft\Office\16.0\Outlook\Profiles\Outlook",
-    "Outlook 2013": r"Software\Microsoft\Office\15.0\Outlook\Profiles\Outlook",
-    "Outlook 2010": r"Software\Microsoft\Windows NT\CurrentVersion\Windows Messaging Subsystem\Profiles\Outlook",
+    "Outlook 2016/2019/365": r"Software\Microsoft\Office\16.0\Outlook\Profiles",
+    "Outlook 2013": r"Software\Microsoft\Office\15.0\Outlook\Profiles",
+    "Outlook 2010": r"Software\Microsoft\Windows NT\CurrentVersion\Windows Messaging Subsystem\Profiles",
 }
 
 def is_admin():
