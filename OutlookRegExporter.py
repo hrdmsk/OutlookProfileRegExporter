@@ -16,14 +16,14 @@ OUTLOOK_PROFILE_KEYS = {
 }
 
 def is_admin():
-    """管理者権限で実行されているかを確認する"""
+    """管理者権限で実行されているかを確認"""
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
     except:
         return False
 
 def get_outlook_profile_key():
-    """利用可能なOutlookプロファイルのレジストリキーパスを取得する"""
+    """利用可能なOutlookプロファイルのレジストリキーパスを取得"""
     for version, key_path in OUTLOOK_PROFILE_KEYS.items():
         try:
             # HKEY_CURRENT_USER からキーを開いて存在を確認
@@ -37,7 +37,7 @@ def get_outlook_profile_key():
     return None
 
 def export_settings(output_dir):
-    """指定されたディレクトリにOutlookのプロファイル設定をエクスポートする"""
+    """指定されたディレクトリにOutlookのプロファイル設定をエクスポート"""
     reg_key_path = get_outlook_profile_key()
 
     if not reg_key_path:
