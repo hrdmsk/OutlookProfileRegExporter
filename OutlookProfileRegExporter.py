@@ -12,6 +12,23 @@ import winreg
 import ctypes
 import sys
 
+# --- アイコン設定 ---
+import base64
+import io
+# Pillowライブラリをインポート
+try:
+    from PIL import Image, ImageTk
+except ImportError:
+    print("警告: Pillowライブラリが見つかりません。'pip install Pillow' を実行してください。")
+    Image = None
+    ImageTk = None
+# icon.pyからアイコンデータをインポート
+try:
+    from icon import ICON_BASE64
+except ImportError:
+    print("警告: icon.pyが見つからないため、アイコンは設定されません。")
+    ICON_BASE64 = None  # icon.pyがなくてもエラーにならないようにする
+
 # --- グローバル定数 ---
 OUTLOOK_PROFILE_KEYS = {
     "Outlook 2016/2019/365": r"Software\Microsoft\Office\16.0\Outlook\Profiles",
@@ -20,6 +37,7 @@ OUTLOOK_PROFILE_KEYS = {
 }
 
 # --- 関数定義 ---
+
 def is_admin():
     try:
         return ctypes.windll.shell32.IsUserAnAdmin()
@@ -85,7 +103,19 @@ class Application(tk.Frame):
         super().__init__(master)
         self.master = master
         self.master.title("Outlook Profile Reg Exporter")
-        
+
+        # --- ウィンドウにアイコンを設定 ---
+        if ICON_BASE64 and ImageTk:
+            try:
+                icon_data = base64.b64decode(ICON_BASE64)
+                # Pillowを使ってICOデータを読み込む
+                image_stream = io.BytesIO(icon_data)
+                pil_image = Image.open(image_stream)
+                icon_image = ImageTk.PhotoImage(pil_image)
+                self.master.iconphoto(True, icon_image)
+            except Exception as e:
+                print(f"警告: ウィンドウアイコンの読み込みに失敗しました。詳細: {e}")
+
         self.master.geometry("450x320")
         self.pack(pady=10, padx=10, fill="both", expand=True)
         
@@ -175,7 +205,6 @@ class Application(tk.Frame):
     def run_export(self):
         output_dir = self.folder_path_var.get()
         
-        # 出力先フォルダが存在しない場合は作成する
         try:
             os.makedirs(output_dir, exist_ok=True)
         except OSError as e:
