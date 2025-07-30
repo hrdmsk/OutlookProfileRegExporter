@@ -29,16 +29,16 @@
    python OutlookRegExporter_Selectable.py
    ```
 
-## .exeファイルの作成方法
+## .exeファイルの作成方法(自分用)
 
-`PyInstaller`を使用し、単一の実行可能ファイルにコンパイルできます。
+`PyInstaller`を使用し、単一の実行可能ファイルにコンパイルします。
 
-1. **仮想環境の作成と有効化（推奨）**:
+1. **仮想環境の作成と有効化**:
    ```bash
    python -m venv .venv
    .venv\Scripts\activate
    ```
-2. **PyInstallerのインストール**:
+2. **ライブラリのインストール**:
    ```bash
    pip instal -r requirements.txt
    ```
