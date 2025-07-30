@@ -35,12 +35,12 @@
 
 1. **仮想環境の作成と有効化（推奨）**:
    ```bash
-   python -m venv venv
-   venv\Scripts\activate
+   python -m venv .venv
+   .venv\Scripts\activate
    ```
 2. **PyInstallerのインストール**:
    ```bash
-   pip install pyinstaller
+   pip instal -r requirements.txt
    ```
 3. **コンパイルの実行**:
    ```bash
